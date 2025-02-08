@@ -6,15 +6,7 @@ import React from 'react';
 const Page = () => {
   return (
     <div className='m-4'>
-      <SignedOut>
-        <SignInButton mode='modal'>
-          <Button>Sign In to Nexly</Button>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-      <ModeToggle />
+      <h1>Home Page</h1>
     </div>
   );
 }
