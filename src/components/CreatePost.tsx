@@ -9,6 +9,7 @@ import { Button } from './ui/button';
 import { ImageIcon, Loader2Icon, SendIcon } from 'lucide-react';
 import { createPost } from '@/actions/post.action';
 import { toast } from '@/hooks/use-toast';
+import ImageUpload from './ImageUpload';
 const CreatePost = () => {
     const { user } = useUser();
     const [content, setContent] = useState("");
@@ -26,7 +27,6 @@ const CreatePost = () => {
                 setImageUrl("");
                 setShowImageUpload(false);
                 toast({
-                    className: "bg-green-600 text-white",
                     title: "Post created successfully!",
                     description: `Your post was published at ${result.post?.createdAt}. Check it out now!`
                 })
@@ -61,6 +61,18 @@ const CreatePost = () => {
                     />
                 </div>
                 {/* Handle Image Uploads */}
+                {(showImageUpload || imageUrl) && (
+                    <div className="border rounded-lg p-4">
+                        <ImageUpload
+                            endpoint="postImage"
+                            value={imageUrl}
+                            onChange={(url) => {
+                                setImageUrl(url);
+                                if (!url) setShowImageUpload(false);
+                            }}
+                        />
+                    </div>
+                )}
                 <div className="flex items-center justify-between border-t pt-4">
                     <div className="flex space-x-2">
                         <Button
