@@ -1,6 +1,7 @@
 import CreatePost from '@/components/CreatePost';
 import ModeToggle from '@/components/ModeToggle';
 import { Button } from '@/components/ui/button';
+import WhoToFollow from '@/components/WhoToFollow';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 import { currentUser } from '@clerk/nextjs/server';
 import React from 'react';
@@ -15,7 +16,9 @@ const Page = async () => {
           user ? <CreatePost /> : null
         }
       </div>
-      <div className="hidden lg:block lg:col-span-4 sticky top-20">Who To Follow</div>
+      <div className="hidden lg:block lg:col-span-4 sticky top-20">
+        <WhoToFollow />
+      </div>
     </div>
   );
 }
