@@ -2,24 +2,39 @@ import { getProfileByUsername, getUserLikedPosts, getUserPosts, isFollowing } fr
 import { notFound } from 'next/navigation';
 import React from 'react';
 import ProfilePageClient from './ProfilePageClient';
-export async function generateMetadata({ params }: { params: { username: string } }) {
-    const user = await getProfileByUsername(params.username);
-    if (!user) return;
+
+type tParams = Promise<{ username: string }>;
+export async function generateMetadata({ params }: { params: tParams }) {
+    const username = (await params).username
+    const user = await getProfileByUsername(username);
+    if (!user) return {};
 
     return {
         title: `${user.name ?? user.username}`,
         description: user.bio || `Check out ${user.username}'s profile.`,
     };
 }
-const Page = async ({ params }: { params: { username: string } }) => {
-    const user = await getProfileByUsername(params.username);
-    if (!user) notFound();
+
+// ✅ Correct Page function
+const Page = async ({ params }: { params: tParams }) => {
+    const username = (await params).username
+    const user = await getProfileByUsername(username);
+    if (!user) return notFound();
+
     const [posts, likedPosts, isCurrentUserFollowing] = await Promise.all([
         getUserPosts(user.id),
         getUserLikedPosts(user.id),
-        isFollowing(user.id)
+        isFollowing(user.id),
     ]);
-    return <ProfilePageClient user={user} posts={posts} likedPosts={likedPosts} isFollowing={isCurrentUserFollowing} />;
-}
+
+    return (
+        <ProfilePageClient
+            user={user}
+            posts={posts}
+            likedPosts={likedPosts}
+            isFollowing={isCurrentUserFollowing}
+        />
+    );
+};
 
 export default Page;
