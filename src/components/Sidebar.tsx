@@ -22,8 +22,10 @@ const Sidebar = async () => {
                             href={`/profile/${user.username}`}
                             className="flex flex-col items-center justify-center"
                         >
-                            <Avatar className="w-20 h-20 border-2 ">
-                                <AvatarImage src={user.image || "/avatar.png"} />
+                            <Avatar className="w-20 h-20 p-[2px] bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full">
+                                <div className="w-full h-full rounded-full p-1 bg-white">
+                                    <AvatarImage src={user.image || "/avatar.png"} className="w-full h-full rounded-full object-cover" />
+                                </div>
                             </Avatar>
 
                             <div className="mt-4 space-y-1">
