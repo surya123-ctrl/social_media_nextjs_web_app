@@ -11,7 +11,7 @@ const FollowButton = ({ userId }: { userId: string }) => {
         setIsLoading(true);
         try {
             const result = await toggleFollow(userId);
-            if (result.success === true) {
+            if (result?.success === true) {
                 toast({
                     title: "Successfully followed!",
                     description: `You are now following ${result.followedUser?.username}. Stay updated with their latest posts!`

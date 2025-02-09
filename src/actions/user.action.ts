@@ -6,7 +6,12 @@ import { revalidatePath } from "next/cache";
 
 export const syncUser = async () => {
     try {
-        const { userId } = await auth();
+        const authData = await auth();
+        if (!authData) {
+            console.log("No Auth data available!");
+            return;
+        }
+        const { userId } = authData;
         const user = await currentUser();
         if (!userId || !user) return;
         const existingUser = await prisma.user.findUnique({
@@ -56,7 +61,7 @@ export const getUserByClerkId = async (clerkId: string) => {
 export const getDbUserId = async () => {
     try {
         const { userId: clerkId } = await auth();
-        if (!clerkId) throw new Error("Unauthorized");
+        if (!clerkId) return null;
         const user = await getUserByClerkId(clerkId);
         if (!user) throw new Error("User not found!");
 
@@ -70,6 +75,7 @@ export const getDbUserId = async () => {
 export const getRandomUsers = async () => {
     try {
         const userId = await getDbUserId();
+        if (!userId) return [];
 
         // Get random users after excluding ourself and accounts which we follow
         const randomUsers = await prisma.user.findMany({
@@ -111,7 +117,7 @@ export const getRandomUsers = async () => {
 export const toggleFollow = async (targetUserId: string) => {
     try {
         const userId = await getDbUserId();
-        if (!userId) throw new Error("UserId is missing!");
+        if (!userId) return;
         if (userId === targetUserId) throw new Error("You can't follow yourself!");
         let followedUser;
         const existingFollow = await prisma.follows.findUnique({
