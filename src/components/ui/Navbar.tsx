@@ -15,7 +15,7 @@ const Navbar = async () => {
                         <Link href="/" className="text-xl font-bold text-primary tracking-wider">Nexly</Link>
                     </div>
                     <DesktopNavbar />
-                    <MobileNavbar />
+                    <MobileNavbar username={user?.emailAddresses[0].emailAddress.split("@")[0] || ""} />
                 </div>
             </div>
         </nav>
