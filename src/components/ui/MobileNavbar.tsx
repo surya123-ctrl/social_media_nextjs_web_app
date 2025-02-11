@@ -36,6 +36,7 @@ const MobileNavbar = ({ username }: { username: string }) => {
                 <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Toggle theme</span>
             </Button>
+            <UserButton />
 
             <Sheet open={showMobileMenu} onOpenChange={setShowMobileMenu}>
                 <SheetTrigger asChild>
@@ -69,11 +70,6 @@ const MobileNavbar = ({ username }: { username: string }) => {
                                         Profile
                                     </Link>
                                 </Button>
-                                <div className="flex items-center gap-3 px-4">
-                                    <UserButton />
-                                    <span className="text-sm font-medium">Manage Account</span>
-                                </div>
-
                                 <SignOutButton>
                                     <Button
                                         variant="ghost"
